@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --sea-green: #388659;
+  --true-blue: #4464AD;
+  --eerie-black: #141514;
+  --crimson-ua: #A71D31;
+  --flame: #CF5C36;
+  --lavender-gray: #CAC4CE;
+  font-family: "Space Mono", sans-serif;
+  color: var(--lavender-gray);
+}
+
+input{
+  cursor: pointer;
+}

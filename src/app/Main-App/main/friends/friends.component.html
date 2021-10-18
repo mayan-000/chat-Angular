@@ -1,0 +1,50 @@
+<input type="button" value="Refresh" (click)="extract()">
+<div class="container" *ngIf="!wait">
+  <div class="friends">
+    <h2>Friends</h2>
+    <h3 *ngIf="friendsList.length==0">Whoosh!<br> Add Friends.</h3>
+    <div class="friends-list" *ngIf="friendsList.length">
+      <div class="friend" [routerLink]="['../', 'home', 'chat', friend.name, friend.uid]" *ngFor="let friend of friendsList">
+        <img src="https://avatars.dicebear.com/api/initials/{{friend.name}}.svg" alt="Friend">
+        <p>{{friend.name}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="friend-requests">
+    <h2>Requests</h2>
+    <h3 *ngIf="requestsList.length==0">Whoopsie!<br> No requests Found.</h3>
+    <div class="requests-list" *ngIf="requestsList.length">
+      <div class="request" *ngFor="let request of requestsList">
+        <img src="https://avatars.dicebear.com/api/initials/{{request.name}}.svg" alt="Request">
+        <p>{{request.name}}</p>
+        <input type="button" value="Accept" (click)="acceptRequest(request)">
+      </div>
+    </div>
+  </div>
+  <div class="suggestions">
+    <h2>Suggestions</h2>
+    <h3 *ngIf="suggestionsList.length==0">Oops! No More Suggestions</h3>
+    <div class="suggestions-list" *ngIf="suggestionsList.length">
+      <div class="suggestion" *ngFor="let suggestion of suggestionsList">
+        <img src="https://avatars.dicebear.com/api/initials/{{suggestion.name}}.svg" alt="Suggestion">
+        <p>{{suggestion.name}}</p>
+        <input type="button" value="Add" (click)="addFriend(suggestion)">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="wait" class="animation">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>

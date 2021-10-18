@@ -1,0 +1,25 @@
+<div class="nav-container">
+  <div class="logo">
+    <a><img src="../../../assets/images/CHAT.png" alt="Logo"></a>
+  </div>
+  <div class="nav">
+    <input type="button" value="HOME" [routerLink]="['home']" routerLinkActive="active" >
+    <input type="button" value="FRIENDS" [routerLink]="['friends']" routerLinkActive="active" >
+    <input type="button" value="PROFILE" [routerLink]="['profile']" routerLinkActive="active" >
+  </div>
+
+  <div class="nav-menu" (click)="showMenu()">
+    <div class="nav-menu-icon">
+      <div class="menu-icon"></div>
+      <div class="menu-icon"></div>
+      <div class="menu-icon"></div>
+    </div>
+    <div class="menu-btn" #menu_btn>  
+      <input type="button" value="HOME" [routerLink]="['home']" routerLinkActive="active" >
+      <input type="button" value="FRIENDS" [routerLink]="['friends']" routerLinkActive="active" >
+      <input type="button" value="PROFILE" [routerLink]="['profile']" routerLinkActive="active" >
+    </div>
+  </div>
+
+</div>
+<router-outlet></router-outlet>

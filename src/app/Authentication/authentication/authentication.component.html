@@ -1,0 +1,21 @@
+<div class="container" *ngIf="!wait">
+  <img src="../../../assets/images/CHAT.png" alt="Logo">
+  <div class="children">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="wait" class="animation">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>

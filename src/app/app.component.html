@@ -1,0 +1,22 @@
+<div class="choose" *ngIf="!wait">
+  <!-- <app-authentication *ngIf="!authenticated"></app-authentication>
+  <app-main *ngIf="authenticated"></app-main> -->
+
+  <router-outlet></router-outlet>
+</div>
+
+
+<div *ngIf="wait" class="animation">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>

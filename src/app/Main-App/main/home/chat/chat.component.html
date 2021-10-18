@@ -1,0 +1,44 @@
+<div class="container" *ngIf="!wait">
+  <div class="user-info">
+    <button class="go-back" type="button"  (click)="goBack()"><img src="../../../../../assets/images/go-back.png" alt="Back"> Go Back</button>
+    <div class="user-img"><img [src]="image" alt="User" ></div>
+    <div class="name">{{name}}</div>
+  </div>
+
+  <div class="cover" #cover>
+    &nbsp;
+    <div class="messages" *ngFor="let message of recentChats">
+      <p class="send" *ngIf="message.type=='send'">
+        <span>ME</span><br>
+        {{message.message}} <br>
+        <span>{{message.date}} {{message.time}}</span>
+      </p>
+
+      <p class="receive" *ngIf="message.type=='receive'">
+        <span>{{name}}</span><br>
+        {{message.message}}<br>
+        <span>{{message.date}} {{message.time}}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="type-message">
+    <input type="text" placeholder="Message" autofocus #Message>
+    <input type="button" value="SEND" (click)="send()">
+  </div>
+</div>
+
+<div *ngIf="wait" class="animation">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>

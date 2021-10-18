@@ -1,0 +1,30 @@
+<router-outlet></router-outlet>
+<div class="recent-chat" *ngIf="!wait">
+  <div class="info" *ngFor="let chat of recentChats" [routerLink]="['chat', chat.name, chat.uid]">
+  <img [src]="chat.image" alt="Recent-chat-profile-pic">
+  <div class="message-info">
+    <div class="name">{{chat.name}}</div>
+    <div class="recent-message">
+      <div class="message">{{chat.message}}</div>
+      <div class="new-or-not" *ngIf="chat.type=='receive' && chat.read!=1">+NEW</div>
+      <div class="time-date">{{chat.date + " " + chat.time}}</div>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+<div *ngIf="wait" class="animation">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
