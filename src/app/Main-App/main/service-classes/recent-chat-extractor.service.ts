@@ -107,8 +107,7 @@ export class RecentChatExtractorService {
     let date = dd + '-' + mm + '-' + yyyy;
     let time = new Date().toTimeString().slice(0, 8);
 
-    return this.http.post(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}/messages.json`,
-    {
+    return this.http.post(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}/messages.json`, {
       "date": date,
       "time": time,
       "read": 1,

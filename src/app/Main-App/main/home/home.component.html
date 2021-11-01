@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
-<div class="recent-chat" *ngIf="!wait">
+<div class="recent-chat" *ngIf="!wait && recentChats.length">
   <div class="info" *ngFor="let chat of recentChats" [routerLink]="['chat', chat.name, chat.uid]">
   <img src="https://avatars.dicebear.com/api/initials/{{chat.name}}.svg" alt="Recent-chat-profile-pic">
   <div class="message-info">
@@ -13,6 +13,10 @@
   </div>
 </div>
 
+<div class = "empty" *ngIf="!recentChats.length && !wait">
+  <img src="../../assets/images/404.svg" alt="Empty">
+  <p>Empty List! <br> Add New Friends</p>
+</div>
 
 <div *ngIf="wait" class="animation">
   <div class="center">

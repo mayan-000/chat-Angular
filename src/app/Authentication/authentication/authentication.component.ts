@@ -8,13 +8,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.css']
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationComponent implements OnInit, OnDestroy {
 
   authenticatorSelector: number = 0;
 
   wait: boolean = true;
 
   constructor(private cookie: CookieService, private authenticator: AuthenticateService, private router: Router, private activeRoute: ActivatedRoute) { }
+  ngOnDestroy(): void {
+    this.authenticator.flip.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.router.navigate(['login'], {relativeTo: this.activeRoute})

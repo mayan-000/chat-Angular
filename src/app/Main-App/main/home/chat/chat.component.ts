@@ -29,7 +29,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute, private location: Location, private recentChat: RecentChatExtractorService) { }
   ngOnDestroy(): void {
     this.recentChat.allMessagesSse.close();
-    this.recentChat.allMessagesSubject.unsubscribe();
   }
 
 

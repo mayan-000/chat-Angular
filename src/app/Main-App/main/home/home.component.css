@@ -52,6 +52,27 @@ img{
   flex: 3;
 }
 
+.empty{
+  height: 80vh;
+  color: var(--eerie-black);
+}
+
+.empty img{
+  height: 60vh;
+  width: 60vw;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-30vw, -30vh);
+}
+
+.empty p{
+  font-size: 3vh;
+  font-weight: 900;
+  text-align: center;
+  margin-top: 5vh;
+}
+
 .center {
   height: 80vh;
   display: flex;

@@ -20,13 +20,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private recentChat: RecentChatExtractorService, private cookie: CookieService) { }
   ngOnDestroy(): void {
     this.recentChat.sse.close();
-    this.recentChat.lastMessagesSubject.unsubscribe();
   }
 
   ngOnInit(): void {
     this.recentChat._extract();
 
     this.recentChat.lastMessagesSubject.subscribe((data: any)=>{
+      
       if(data.patch){
         let friendUid = data.patch.path.split('/')[1];
         for (const chat of this.recentChats) {
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       else if(data.put){
         this.extractNames(data.put).then((data: any)=>{
           this.recentChats.push(...data);
+          
           this.wait = false;
         })
       }

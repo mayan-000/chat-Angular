@@ -10,7 +10,6 @@ import { interval, Subject } from 'rxjs';
 })
 export class AuthenticateService implements OnInit{
 
-  api = "AIzaSyCBcQkncvumoMqwEqB5UawcH5ZYG7KUFQ0";
 
   flip = new Subject<number>(); 
 
