@@ -34,6 +34,7 @@ export class RecentChatExtractorService {
     })
     .subscribe((data: any)=>{
       this.uid = data.users[0].localId;
+      let id: any[] = this.cookie.get('id-chat').split(',');
 
       this.allMessagesSse = new EventSource(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}.json?auth=${id[0]}`);
 
@@ -61,6 +62,7 @@ export class RecentChatExtractorService {
     })
     .subscribe((data: any)=>{
       this.uid = data.users[0].localId;
+      let id: any[] = this.cookie.get('id-chat').split(',');
 
       this.sse = new EventSource(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/LastMessages/.json?auth=${id[0]}`);
 
