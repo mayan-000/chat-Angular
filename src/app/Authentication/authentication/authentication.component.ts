@@ -19,7 +19,7 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit(): void {
     this.router.navigate(['login'], {relativeTo: this.activeRoute})
     
-    setInterval(()=>{this.wait = false},1000);
+    setTimeout(()=>{this.wait = false},1000);
 
     this.authenticator.flip.subscribe((data)=>{
       this.authenticatorSelector = data;

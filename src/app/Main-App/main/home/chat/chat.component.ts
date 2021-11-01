@@ -1,15 +1,14 @@
-import { CookieService } from 'ngx-cookie-service';
 import { RecentChatExtractorService } from './../../service-classes/recent-chat-extractor.service';
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy {
 
   recentChats: any[] = [];
 
@@ -27,70 +26,95 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("Message", {static: false})
   messageInput!: ElementRef;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private location: Location, private recentChat: RecentChatExtractorService, private cookie: CookieService) { }
+  constructor(private activatedRoute: ActivatedRoute, private location: Location, private recentChat: RecentChatExtractorService) { }
   ngOnDestroy(): void {
-    clearInterval(this.clear);
+    this.recentChat.allMessagesSse.close();
+    this.recentChat.allMessagesSubject.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    this.messageInput.nativeElement.addEventListener('keypress', (e: any)=>{
-      if(e.key=="Enter"){
-        this.send();        
-      }
-    });
-  }
 
-  ngOnInit(): void {
-
+  ngOnInit(): void {    
     this.activatedRoute.params.subscribe((data)=>{
       this.name = data.friend;
       this.uid = data.uid;
       this.image = `https://avatars.dicebear.com/api/initials/${this.name}.svg`;
+
+      this.recentChat._extractAll(this.uid);
     });
 
-    this.extractMessages();
+    this.recentChat.allMessagesSubject.subscribe((data: any)=>{
+      this.extractMessages(data);
+    });
   }
-
   
   goBack() {
     this.location.back();
   }
 
-  extractMessages(){
-    let f = 1;
-    this.clear = setInterval(()=>{
-      
-      this.recentChat.extractAll()
-      .subscribe((data: any)=>{
+  extractMessages(_data: any){    
+    if(_data.put.path=='/'){
+      let data = _data.put.data.messages;
 
-      let tempChats = [...this.recentChats];
+      for (const key in data) {
+        let n = this.recentChats.length;
 
-      this.recentChats = [];
-
-      let messages = data[this.uid].messages
-      for (const mID in messages) {
-        this.recentChats.push(messages[mID]);
-        
-        this.recentChat.updateReadMessage(mID, this.uid, messages[mID])
+        if(n){
+          if(this.recentChats[n-1].date == data[key].date && this.recentChats[n-1].time == data[key].time){}
+          else{            
+            this.recentChats.push(data[key])
+            this.recentChat.updateReadMessage(key, this.uid, data[key])
+          }
+        }
+        else{
+          this.recentChats.push(data[key]);
+        }        
       }
 
       if(this.recentChats.length)
       this.recentChat.updateLast(this.uid, this.recentChats[this.recentChats.length-1])
 
       this.wait = false;
+    }
+    else{
+      let data = _data.put.data;
 
-      if(this.recentChats.length != f)
+      if(data.type=="receive"){
+        this.recentChats.push(data);
+      }
+    }
+
+    setTimeout(()=>{
       this.cover.nativeElement.scrollTop = this.cover.nativeElement.scrollHeight;
-
-      f = tempChats.length;
-    });
-    },500);
+    },1);
   }
 
   send(){
     let message = this.messageInput.nativeElement.value;
-      this.messageInput.nativeElement.value="";
-      this.recentChat.sendMessage(message, this.uid).subscribe((data: any)=>{});
+    this.messageInput.nativeElement.value="";
+
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let yyyy = today.getFullYear();
+
+    let date = dd + '-' + mm + '-' + yyyy;
+    let time = new Date().toTimeString().slice(0, 8);
+    
+    let messageObjectSend = {
+      "date": date,
+      "time": time,
+      "read": 1,
+      "message": message,
+      "type": "send"
+    }
+    
+    this.recentChats.push(messageObjectSend);
+
+    setTimeout(()=>{
+      this.cover.nativeElement.scrollTop = this.cover.nativeElement.scrollHeight;
+    },1);
+
+    this.recentChat.sendMessage(message, this.uid).subscribe((data: any)=>{});
   }
 
 }

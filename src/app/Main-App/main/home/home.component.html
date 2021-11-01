@@ -1,7 +1,7 @@
 <router-outlet></router-outlet>
 <div class="recent-chat" *ngIf="!wait">
   <div class="info" *ngFor="let chat of recentChats" [routerLink]="['chat', chat.name, chat.uid]">
-  <img [src]="chat.image" alt="Recent-chat-profile-pic">
+  <img src="https://avatars.dicebear.com/api/initials/{{chat.name}}.svg" alt="Recent-chat-profile-pic">
   <div class="message-info">
     <div class="name">{{chat.name}}</div>
     <div class="recent-message">

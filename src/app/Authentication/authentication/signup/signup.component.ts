@@ -1,5 +1,5 @@
 import { AuthenticateService } from './../authentication-service/authenticate.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { catchError, switchMap } from "rxjs/operators";
 import { throwError } from 'rxjs';
@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      'name': new FormControl("", [Validators.required]),
+      'name': new FormControl("", [Validators.required, this.noSpaceValidator()]),
       'email': new FormControl("", [Validators.required, Validators.email]),
       'password': new FormControl("", [Validators.required, Validators.minLength(8)]),
     });
@@ -71,5 +71,16 @@ export class SignupComponent implements OnInit {
     this.authenticate.goForgotPassword();
   }
   
+  noSpaceValidator(): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+      const val = control.value;
+
+      if(val.split(' ').length>1){
+        return {space: true};
+      }
+
+      return null;
+    }
+  }
 
 }

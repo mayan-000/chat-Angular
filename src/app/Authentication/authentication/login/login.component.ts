@@ -40,8 +40,6 @@ export class LoginComponent implements OnInit {
     .pipe(switchMap(
       (data:any)=>{        
         this.id = [data.idToken, data.refreshToken, new Date().getTime()+3600*1000];
-                // console.log(this.id);
-                // console.log(new Date().getTime());
         
         return this.authenticate.isVerified(data);
       }

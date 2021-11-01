@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {    
-    this.router.navigate(['home'], {relativeTo: this.activatedRoute});   
+    this.router.navigate(['home'], {relativeTo: this.activatedRoute});
   }
 
   showMenu(){

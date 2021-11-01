@@ -1,9 +1,10 @@
+import { environment } from './../../../../environments/environment';
 import { switchMap } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { AuthenticateService } from 'src/app/Authentication/authentication/authentication-service/authenticate.service';
 
 @Injectable({
@@ -12,124 +13,78 @@ import { AuthenticateService } from 'src/app/Authentication/authentication/authe
 export class RecentChatExtractorService {
 
   uid:string = "";
-  api = "AIzaSyCBcQkncvumoMqwEqB5UawcH5ZYG7KUFQ0";
+
+  sse: any;
+
+  allMessagesSse: any;
+
+  lastMessagesSubject = new Subject<any>();
+
+  allMessagesSubject = new Subject<any>();
+  
 
   constructor(private cookie: CookieService, private http: HttpClient, private authenticate: AuthenticateService) { }
 
-  extract(){
-    let id :any[] = this.cookie.get('id-chat').split(',');    
-    if(id[2] <= (new Date().getTime())){
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', id);
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: id[0],
-        })}),
-        switchMap((data:any)=>{
-          this.uid = data.users[0].localId;
-          
-          return this.extractMessages(id);
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
-    
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-    {
-      idToken: id[0],
-    })
-    .pipe(switchMap((data:any)=>{
-      this.uid = data.users[0].localId;
-      
-      return this.extractMessages(id);
-    }),
-    catchError(error=>{
-      return throwError(error);
-    }))
-  }
-
-  private extractMessages(id: any){
-    return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}.json`, 
-    {
-      params: new HttpParams().set('auth', id[0]),
-    });
-  }
-
-  extractAll() {
+  _extractAll(friendUid: string) {
     let id: any[] = this.cookie.get('id-chat').split(',');
 
-    if(id[2] <= new Date().getTime()){
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', id);
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: id[0],
-        })}),
-        switchMap((data:any)=>{
-          this.uid = data.users[0].localId;
-          
-          return this.extractAllMessages(id);
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
-    
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
-    .pipe(switchMap((data:any)=>{
+    .subscribe((data: any)=>{
       this.uid = data.users[0].localId;
-      
-      return this.extractAllMessages(id);
-    }),
-    catchError(error=>{
-      return throwError(error);
-    }));
+
+      this.allMessagesSse = new EventSource(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}.json?auth=${id[0]}`);
+
+      this.allMessagesSse.addEventListener('patch', (e: any)=>{
+        this.allMessagesSubject.next({patch: JSON.parse(e.data)})
+      }, false);
+
+      this.allMessagesSse.addEventListener('put', (e: any)=>{
+        this.allMessagesSubject.next({put: JSON.parse(e.data)})
+      }, false);
+
+      this.allMessagesSse.addEventListener('auth_revoked', (e: any)=>{
+        this.allMessagesSse.close();
+        this._extractAll(friendUid);
+      }, false);
+    })
   }
 
-  private extractAllMessages(id: any) {
-    return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends.json`, 
+  _extract() {
+    let id: any[] = this.cookie.get('id-chat').split(',');
+
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
-      params: new HttpParams().set('auth', id[0]),
-    });
+      idToken: id[0],
+    })
+    .subscribe((data: any)=>{
+      this.uid = data.users[0].localId;
+
+      this.sse = new EventSource(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/LastMessages/.json?auth=${id[0]}`);
+
+      this.sse.addEventListener('patch', (e: any)=>{
+        this.lastMessagesSubject.next({patch: JSON.parse(e.data)})
+      }, false);
+
+      this.sse.addEventListener('put', (e: any)=>{
+        this.lastMessagesSubject.next({put: JSON.parse(e.data)})
+      }, false);
+
+      this.sse.addEventListener('auth_revoked', (e: any)=>{
+        this.sse.close();
+        console.log('auth');
+        
+        this._extract();
+      }, false);
+    })
   }
 
   sendMessage(message: string, friendUid: string){
     let id: any[] = this.cookie.get('id-chat').split(',');    
 
-    if(id[2] <= new Date().getTime()){
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', id);
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: id[0],
-        })}),
-        switchMap((data: any)=>{
-          this.uid = data.users[0].localId;
-          
-          return this.send(id, message, friendUid);
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
-    
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
@@ -209,40 +164,18 @@ export class RecentChatExtractorService {
   updateReadMessage(mID: string, friendUid: string, message: any){
     let id: any[] = this.cookie.get('id-chat').split(',');    
 
-    if(id[2] <= new Date().getTime()){
-      this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', id);
-
-        return this.http.patch(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}/messages/${mID}.json`,
-        {
-          "date": message.date,
-          "time": message.time,
-          "read": 1,
-          "message": message.message,
-          "type": message.type
-        },
-        {
-          params: new HttpParams().set('auth', id[0]),
-        })
-      }
-      ))
-      .subscribe((data)=>{});
-    }
-    else{
+    if(message.type == "receive"){
       this.http.patch(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/friends/${friendUid}/messages/${mID}.json`,
-        {
-          "date": message.date,
-          "time": message.time,
-          "read": 1,
-          "message": message.message,
-          "type": message.type
-        },
-        {
-          params: new HttpParams().set('auth', id[0]),
-        })
+      {
+        "date": message.date,
+        "time": message.time,
+        "read": 1,
+        "message": message.message,
+        "type": message.type
+      },
+      {
+        params: new HttpParams().set('auth', id[0]),
+      })
       .subscribe((data)=>{});
     }
   }
@@ -250,41 +183,29 @@ export class RecentChatExtractorService {
   updateLast(friendUid: string, message: any){
     let id: any[] = this.cookie.get('id-chat').split(',');  
 
-    if(id[2] <= new Date().getTime()){
-      this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', id);
-
-        return this.http.patch(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/LastMessages/${friendUid}.json`,
-        {
-          "date": message.date,
-          "time": message.time,
-          "read": 1,
-          "message": message.message,
-          "type": message.type
-        },
-        {
-          params: new HttpParams().set('auth', id[0]),
-        })
-      }
-      ))
-      .subscribe((data)=>{});
-    }
-    else{
+    if(message.type == "receive"){
       this.http.patch(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/LastMessages/${friendUid}.json`,
-        {
-          "date": message.date,
-          "time": message.time,
-          "read": 1,
-          "message": message.message,
-          "type": message.type
-        },
-        {
-          params: new HttpParams().set('auth', id[0]),
-        })
+      {
+        "date": message.date,
+        "time": message.time,
+        "read": 1,
+        "message": message.message,
+        "type": message.type
+      },
+      {
+        params: new HttpParams().set('auth', id[0]),
+      })
       .subscribe((data)=>{});
     }
+    
+  }
+
+  lookup(){
+    let id: any[] = this.cookie.get('id-chat').split(',');
+
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
+    {
+      idToken: id[0],
+    })
   }
 }

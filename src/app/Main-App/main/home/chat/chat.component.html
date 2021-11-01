@@ -8,13 +8,13 @@
   <div class="cover" #cover>
     &nbsp;
     <div class="messages" *ngFor="let message of recentChats">
-      <p class="send" *ngIf="message.type=='send'">
+      <p class="send" *ngIf="message && message.type=='send'">
         <span>ME</span><br>
         {{message.message}} <br>
         <span>{{message.date}} {{message.time}}</span>
       </p>
 
-      <p class="receive" *ngIf="message.type=='receive'">
+      <p class="receive" *ngIf="message && message.type=='receive'">
         <span>{{name}}</span><br>
         {{message.message}}<br>
         <span>{{message.date}} {{message.time}}</span>

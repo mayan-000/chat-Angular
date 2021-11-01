@@ -1,21 +1,4 @@
 export class RecentChatModel {
-  name: string;
-  uid: string;
-  date: string;
-  time: string;
-  message: string;
-  read: string;
-  type:string;
-  image: string;
 
-  constructor(name: string, uid:string, date: string, time: string, message: string, read: string, type: string, image: string) {
-    this.name = name;
-    this.uid = uid;
-    this.date = date;
-    this.time = time;
-    this.message = message;
-    this.read = read;
-    this.type = type;
-    this.image = image;
-  }
+  constructor(public name: string, public uid:string, public date: string, public time: string, public message: string, public read: string, public type: string, public image?: string) {}
 }

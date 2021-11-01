@@ -49,9 +49,6 @@
   overflow: auto;
 }
 
-.messages{
-  overflow: auto;
-}
 
 .messages > * {
   max-width: 100vw;

@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { switchMap } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -31,31 +32,8 @@ export class FriendsExtractorService {
 
   extractFriends(){
     let id: any[] = this.cookie.get('id-chat').split(',');
-
-    if(id[2] <= new Date().getTime()){
-      
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let _id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', _id);
-
-        id = _id;
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: _id[0],
-        })}),
-        switchMap((data:any)=>{
-          this.uid = data.users[0].localId;
-          return this._extractFriends(id); 
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
     
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
@@ -79,6 +57,8 @@ export class FriendsExtractorService {
       for (const key in data) {
         await this.nameExtractor(key, friendsDetails);
       }
+
+      // 
       
       return of(friendsDetails);
     }));
@@ -86,43 +66,24 @@ export class FriendsExtractorService {
 
   extractRequests(){
     let id: any[] = this.cookie.get('id-chat').split(',');
-
-    if(id[2] <= new Date().getTime()){
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let _id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', _id);
-        id = _id;
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: _id[0],
-        })}),
-        switchMap((data:any)=>{
-          this.uid = data.users[0].localId;
-          return this._extractRequests(id); 
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
     
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
     .pipe(switchMap((data:any)=>{
       this.uid = data.users[0].localId;
-      return this._extractRequests(id);
+      return this._extractRequests();
     }),
     catchError(error=>{
       return throwError(error);
     }));
   }
 
-  private _extractRequests(id: any){
+  private _extractRequests(){
     let requestsDetails: any[] = [];
+    let id: any[] = this.cookie.get('id-chat').split(',');
+
 
     return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/requestsReceived.json`,
     {
@@ -132,50 +93,31 @@ export class FriendsExtractorService {
       for (const key in data) {
         await this.nameExtractor(data[key].uid, requestsDetails);
       }
-    
+    // 
       return of(requestsDetails);
     }));
   }
 
   extractSuggestions(){
     let id: any[] = this.cookie.get('id-chat').split(',');
-
-    if(id[2] <= new Date().getTime()){
-      return this.authenticate.refreshId(id)
-      .pipe(switchMap((data: any)=>{
-        let _id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        
-        this.cookie.set('id-chat', _id);
-
-        id = _id;
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: _id[0],
-        })}),
-        switchMap((data:any)=>{
-          this.uid = data.users[0].localId;
-          return this._extractSuggestions(id); 
-        }),
-        catchError(error=>{
-          return throwError(error);
-        }));
-    }
     
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
     .pipe(switchMap((data:any)=>{
       this.uid = data.users[0].localId;
-      return this._extractSuggestions(id);
+      return this._extractSuggestions();
     }),
     catchError(error=>{
       return throwError(error);
     }));
   }
 
-  private _extractSuggestions(id: any){
+  private _extractSuggestions(){
     let suggestionsDetails: any[] = [];
+    let id: any[] = this.cookie.get('id-chat').split(',');
+
     
     return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users.json`,
     {
@@ -185,7 +127,7 @@ export class FriendsExtractorService {
       for (const key in data) {
         await this.nameExtractor(key, suggestionsDetails);
       }
-            
+            // 
       return of(suggestionsDetails);
     }));
   }
@@ -193,7 +135,7 @@ export class FriendsExtractorService {
   lookup(){
     let id: any[] = this.cookie.get('id-chat').split(',');
 
-    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
     {
       idToken: id[0],
     })
@@ -216,11 +158,10 @@ export class FriendsExtractorService {
         }
       }
 
-      return this.http.delete(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/requestsReceived/${_key}.json`,
-      {
-        params: new HttpParams().set('auth', id[0]),
-      });
-    }),
+      return this.http.delete(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/requestsReceived/${_key}.json`,{
+          params: new HttpParams().set('auth', id[0]),
+        });
+      }),
       switchMap(()=>{
         return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${request.uid}/requestsSent.json`,{
           params: new HttpParams().set('auth', id[0]),
@@ -283,106 +224,39 @@ export class FriendsExtractorService {
     let email = "";
 
     let id: any[] = this.cookie.get('id-chat').split(',');
-
-    if(id[2] <= new Date().getTime()){
-    return this.authenticate.refreshId(id)
-      .pipe(
-      switchMap((data: any)=>{
-        let _id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        this.cookie.set('id-chat', _id);
-
-        id = _id;
-
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: _id[0],
-        })
-        }
-      ),
-      switchMap((data: any)=>{
+    
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
+      {
+        idToken: id[0],
+      }).pipe(
+      switchMap((data: any)=>{          
         this.uid = data.users[0].localId;
-        
+
         return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/username/name.json`,
         {
           params: new HttpParams().set('auth', id[0]),
         })
-        }
-      ),
+      }),
       switchMap((data: any)=>{
         name = data;
-
+      
         return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/userEmail/email.json`,
         {
           params: new HttpParams().set('auth', id[0]),
-        })}),
-      switchMap(async (data: any)=>{
-        email = await data; 
+        })
+      }),
+      switchMap((data: any)=>{
+      email = data;
 
-        return of([name, email]);
-      }));
-    }
-    else{
-      return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: id[0],
-        }).pipe(
-        switchMap((data: any)=>{          
-          this.uid = data.users[0].localId;
-
-          return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/username/name.json`,
-          {
-            params: new HttpParams().set('auth', id[0]),
-          })
-        }),
-        switchMap((data: any)=>{
-          name = data;
-        
-          return this.http.get(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/userEmail/email.json`,
-          {
-            params: new HttpParams().set('auth', id[0]),
-          })
-        }),
-        switchMap(async (data: any)=>{
-        email = await data;
-
-        return of([name, email]);
-      }));
-    }
+      return of([name, email]);
+    }));
+    
   }
 
   changeName(name: string){
     let id: any[] = this.cookie.get('id-chat').split(',');
 
-    if(id[2] <= new Date().getTime()){
-    this.authenticate.refreshId(id)
-      .pipe(
-      switchMap((data: any)=>{
-        let _id:any = [data.id_token, data.refresh_token, new Date().getTime()+3600*1000];
-        this.cookie.set('id-chat', _id);
-
-        id = _id;
-        return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
-        {
-          idToken: _id[0],
-        })
-        }
-      ),
-      switchMap((data: any)=>{
-        this.uid = data.users[0].localId;
-        
-        return this.http.put(`https://chat-4dbb2-default-rtdb.firebaseio.com/users/${this.uid}/username.json`,
-        {
-          "name": name,
-        },
-        {
-          params: new HttpParams().set('auth', id[0]),
-        })
-        }
-      ))
-      .subscribe((data)=>{});
-    }
-
-    this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + this.api,
+    this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' + environment.firebaseConfig.apiKey,
       {
         idToken: id[0],
       }).pipe(

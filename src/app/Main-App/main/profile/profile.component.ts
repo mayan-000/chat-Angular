@@ -37,9 +37,7 @@ export class ProfileComponent implements OnInit {
   }
 
   findDetails(){
-    this.extractor.extractMe().pipe(switchMap((data: Observable<any>)=>{
-      return data;
-    }))
+    this.extractor.extractMe()
     .subscribe((data: any)=>{
       this.name = data[0];
       this.email = data[1];
@@ -47,11 +45,18 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  changeUserName(_name: HTMLInputElement){
-    this.name = _name.value;
-    this.extractor.changeName(this.name);
-
-    this.pop();
+  changeUserName(_name: HTMLInputElement){    
+    if(_name.value.split(' ').length==1){
+      this.name = _name.value;
+      this.extractor.changeName(this.name);
+      this.pop();
+    }
+    else{
+      _name.style.border = '3px red solid';
+      _name.value = "";
+      _name.placeholder = "No Spaces Please!";
+    }
+    
   }
 
 }

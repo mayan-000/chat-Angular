@@ -16,10 +16,8 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log(route.component);
-      console.log(state.url.split('/'));
 
-      let url = state.url.split('/');
+      let url = state.url.split('/'); 
 
       let id = this.cookie.get('id-chat').split(',');
 
@@ -39,6 +37,7 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
               })
             }),
             switchMap((data: any)=>{
+              
               if(data==null  || data.username.name!=url[4]) return of(false);
               return of(true);
             }))
@@ -58,7 +57,6 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
         else{
           this.router.navigate(['']);
         }
-
       }
       else if(url[1]=="authentication"){
         if(id.length==3){
@@ -73,7 +71,7 @@ export class AuthGuardGuard implements CanActivate, CanActivateChild {
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {      
     return this.canActivate(childRoute, state);
   }
   

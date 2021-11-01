@@ -1,3 +1,4 @@
+import { AuthCheckInterceptor } from './auth-check.interceptor';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,7 +14,7 @@ import { HomeComponent } from './Main-App/main/home/home.component';
 import { FriendsComponent } from './Main-App/main/friends/friends.component';
 import { ProfileComponent } from './Main-App/main/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatComponent } from './Main-App/main/home/chat/chat.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -38,7 +39,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CookieService],
+  providers: [CookieService, {provide: HTTP_INTERCEPTORS, useClass: AuthCheckInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
