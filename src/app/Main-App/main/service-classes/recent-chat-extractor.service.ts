@@ -47,8 +47,7 @@ export class RecentChatExtractorService {
       }, false);
 
       this.allMessagesSse.addEventListener('auth_revoked', (e: any)=>{
-        this.allMessagesSse.close();
-        this._extractAll(friendUid);
+        this.allMessagesSubject.next({auth_revoked: true})
       }, false);
     })
   }
@@ -75,10 +74,7 @@ export class RecentChatExtractorService {
       }, false);
 
       this.sse.addEventListener('auth_revoked', (e: any)=>{
-        this.sse.close();
-        console.log('auth');
-        
-        this._extract();
+        this.lastMessagesSubject.next({auth_revoked: true})
       }, false);
     })
   }

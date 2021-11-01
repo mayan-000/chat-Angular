@@ -43,7 +43,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     this.recentChat.allMessagesSubject.subscribe((data: any)=>{
-      this.extractMessages(data);
+      if(data.auth_revoked){
+        this.recentChat.allMessagesSse.close();
+        this.recentChat._extractAll(this.uid);
+      }
+      else
+        this.extractMessages(data);
     });
   }
   

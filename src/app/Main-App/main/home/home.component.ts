@@ -39,11 +39,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
         this.recentChats.sort(this.cmp);
       }
-      else{
+      else if(data.put){
         this.extractNames(data.put).then((data: any)=>{
           this.recentChats.push(...data);
           this.wait = false;
         })
+      }
+      else{
+        this.recentChat.sse.close();
+        this.recentChat._extract();
       }
     })
   }
