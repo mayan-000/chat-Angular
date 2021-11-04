@@ -1,12 +1,13 @@
-<input type="button" value="Refresh" (click)="extract()">
+<button (click)="extract()">Refresh <i class="fas fa-redo"></i></button>
 <div class="container" *ngIf="!wait">
   <div class="friends">
     <h2>Friends</h2>
     <h3 *ngIf="friendsList.length==0">Whoosh!<br> Add Friends.</h3>
     <div class="friends-list" *ngIf="friendsList.length">
-      <div class="friend" [routerLink]="['../', 'home', 'chat', friend.name, friend.uid]" *ngFor="let friend of friendsList">
+      <div class="list friend" [routerLink]="['../', 'home', 'chat', friend.name, friend.uid]" *ngFor="let friend of friendsList">
         <img src="https://avatars.dicebear.com/api/initials/{{friend.name}}.svg" alt="Friend">
         <p>{{friend.name}}</p>
+        <button><i class="fas fa-angle-right"></i></button>
       </div>
     </div>
   </div>
@@ -14,10 +15,10 @@
     <h2>Requests</h2>
     <h3 *ngIf="requestsList.length==0">Whoopsie!<br> No requests Found.</h3>
     <div class="requests-list" *ngIf="requestsList.length">
-      <div class="request" *ngFor="let request of requestsList">
+      <div class="list request" *ngFor="let request of requestsList">
         <img src="https://avatars.dicebear.com/api/initials/{{request.name}}.svg" alt="Request">
         <p>{{request.name}}</p>
-        <input type="button" value="Accept" (click)="acceptRequest(request)">
+        <button (click)="acceptRequest(request)">Accept <i class="fas fa-angle-right"></i></button>
       </div>
     </div>
   </div>
@@ -25,10 +26,10 @@
     <h2>Suggestions</h2>
     <h3 *ngIf="suggestionsList.length==0">Oops! No More Suggestions</h3>
     <div class="suggestions-list" *ngIf="suggestionsList.length">
-      <div class="suggestion" *ngFor="let suggestion of suggestionsList">
+      <div class="list suggestion" *ngFor="let suggestion of suggestionsList">
         <img src="https://avatars.dicebear.com/api/initials/{{suggestion.name}}.svg" alt="Suggestion">
         <p>{{suggestion.name}}</p>
-        <input type="button" value="Add" (click)="addFriend(suggestion)">
+        <button (click)="addFriend(suggestion)">Add <i class="fas fa-angle-right"></i></button>
       </div>
     </div>
   </div>

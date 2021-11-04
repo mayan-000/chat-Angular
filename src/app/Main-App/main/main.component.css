@@ -1,7 +1,16 @@
+.container{
+  max-height: 200vh;
+  /* border-radius: 10px; */
+  /* background: linear-gradient(to right, #6d2626, #961515);
+  background: linear-gradient(to right, #000066, #1cb5e0);
+  background: linear-gradient(to right, #378374, #093637); */
+  /* background-color: #128CFC; */
+}
+
+
 .nav-container {
   box-sizing: border-box;
   height: 15vh;
-  background-color: var(--sea-green);
   padding: 2.5vh 2vw;
   border-radius: 10px;
 }
@@ -9,6 +18,7 @@
 img {
   height: 10vh;
   width: 10vh;
+  /* border-radius: 100vh; */
 }
 
 .logo {
@@ -20,53 +30,68 @@ img {
   float: right;
 }
 
-.nav-menu {
-  display: none;
+.button {
+	pointer-events: auto;
+	cursor: pointer;
+	border: none;
+	padding: 1vh 2vw;
+	margin: 5px;
+	font-family: inherit;
+	font-size: 2vh;
+	position: relative;
+	display: inline-block;
 }
 
-input {
-  width: 15vw;
-  font-family: inherit;
-  border-radius: 10px;
-  margin: 5px;
-  padding: .5vh .3vw;
-  line-height: 4vh;
-  font-size: 2.5vh;
-  white-space: normal;
-  word-wrap: break-word;
+.button::before,
+.button::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.button--pan {
+	font-weight: 700;
+	border: 2px solid #000;
+	border-radius: 3rem;
+	overflow: hidden;
+	color: #fff;
+}
+
+
+.button--pan span {
+	position: relative;
+	mix-blend-mode: difference;
+}
+
+.button--pan::before {
+	content: '';
+	background: #000;
+	transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.button--pan:hover::before {
+	transform: translate3d(0,-100%,0);
 }
 
 .active {
-  border: var(--true-blue) solid 5px;
+  color: #43c6ac;
 }
 
 @media screen and  (max-width: 700px) {
+  
   .nav{
-    display: none;
+    display: flex;
+    flex-direction: column;
   }
 
-  .nav-menu{
-    display: inline;
-    float: right;
+  .button{
+    font-size: 1vh;
+    width: 12vw;
+    padding: .2vh 1vw;
+	  margin: 1px;
   }
-
-  .menu-icon{
-    width: 7vw;
-    height: .8vh;
-    background-color: black;
-    margin: .4vh 0;
-  }
-
-  .menu-btn{
-    display: none;
-    position: absolute;
-    top: calc(10vh - 10px);
-    left: calc(40vw - 40px);
-  }
-
-  input{
-    font-size: 1.5vh;
-    width: 20vw;
-  }
+  
 }
 

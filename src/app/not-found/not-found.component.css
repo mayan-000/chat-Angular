@@ -1,6 +1,7 @@
 .container{
   height: 94vh;
   color: var(--eerie-black);
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
 }
 
 img{
@@ -16,5 +17,5 @@ p{
   font-size: 3vh;
   font-weight: 900;
   text-align: center;
-  margin-top: 20vh;
+  padding-top: 20vh;
 }

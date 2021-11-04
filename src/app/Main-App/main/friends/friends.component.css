@@ -2,41 +2,73 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background-color: #128CFC;
+  border: 1px solid black;
+  height: 70vh;
 }
 
 .container > * {
   flex: 1;
-  height: calc(100vh - 200px);
-  background-color: var(--crimson-ua);
-  border-radius: 10px;
+  height: 60vh;
   margin: 0 10px;
   margin-top: 20px;
   box-sizing: border-box;
   overflow: auto;
+  border-top: 10px solid #0B5AA2;
+  background-color: white;
 }
 
-.friend, .request, .suggestion {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  border-radius: 10px;
-  border: 5px solid var(--eerie-black);
+.list{
+  border: 1px solid black;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
   margin: 1vh 2vw;
   padding: 1vh 1vw;
-  background-color: var(--flame);
+  display: grid;
+  grid-template-columns: 2fr 6fr 4fr;
+  grid-gap: 10px;
+  justify-items: center;
+  align-items: center;
+  box-sizing: border-box;
+  word-break: break-all;
 }
 
-.friend > *, .request > *, .suggestion > * {
-  flex: 1;
+.request {
+  grid-template-columns: 2fr 5fr 5fr;
 }
 
-.friend{
-  justify-content: space-evenly;
+i{
+  margin-left: 3px;
+  align-self: center;
+  font-size: 24px;
+  color: #0B5AA2;
+  font-weight: bold;
+  animation: icon 1.5s infinite forwards;
+  float: right;
+  margin-right: 5px;
 }
 
-h2, h3{
+@keyframes icon {
+  0%,100%{
+    transform: translate(0px);
+  }
+  50% {
+    transform: translate(3px);
+  }
+}
+
+h2{
   text-align: center;
+  color: #0B5AA2;
+}
+
+h3{
+  color: var(--eerie-black);
+  text-align: center;
+}
+
+p{
+  color: var(--eerie-black);
+  font-weight: 700;
 }
 
 img{
@@ -45,21 +77,26 @@ img{
   object-fit: contain;
 }
 
-input{
-  font-size: 18px;
-  border-radius: 5px;
-  line-height: 1.6rem;
-  font-family: inherit;
-  font-weight: 500;
+button{
+  color: white;
+	font: inherit;
+	border: 0;
+	outline: 0;
+	padding: 0;
+	transition: all 200ms ease-in;
+	cursor: pointer;
+  background: #7f8ff4;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+  border-radius: 2px;
+  padding: 1vh 1vw;
+}
+
+button:focus{
+  border: 1px black solid;
 }
 
 p{
   font-size: 18px;
-}
-
-input[value="Refresh"]{
-  margin-top: 5px;
-  margin-left: 10px;
 }
 
 .center {
@@ -67,7 +104,6 @@ input[value="Refresh"]{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
 }
 .wave {
   width: 5px;
@@ -120,10 +156,12 @@ input[value="Refresh"]{
 @media screen and (max-width: 800px) {
   .container{
     flex-direction: column;
+    height: 210vh;
+    padding: 10px;
   }
 
   .container > * {
-    flex: 70vh;
+    height: 70vh;
     width: 90vw;
   }
 

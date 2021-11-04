@@ -33,7 +33,11 @@ export class ProfileComponent implements OnInit {
   pop(){
     this.changeName = !this.changeName;
     
-    this.popUp.nativeElement.style.visibility = (this.changeName? "visible": "hidden");
+    this.popUp.nativeElement.style.display = (this.changeName? "block": "none");
+
+    if(this.changeName) {
+      this.popUp.nativeElement.classList
+    }
   }
 
   findDetails(){

@@ -13,3 +13,13 @@
 input{
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+

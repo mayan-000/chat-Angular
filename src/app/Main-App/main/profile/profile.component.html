@@ -1,25 +1,31 @@
 <div class="container" *ngIf="!wait">
-  <img src="https://avatars.dicebear.com/api/initials/{{name}}.svg" alt="Profile-Pic" class="user-dp">
-  <div class="name">
-    <h2>Name</h2>
-    <h3>{{name}}</h3>
-  </div>
-  <div class="email">
-    <h2>Email</h2>
-    <h3>{{email}}</h3>
-  </div>
-  <div class="buttons">
-    <input type="button" value="Edit Name" (click)="pop()">
-    <input type="button" value="Logout" (click)="logout()">
+  <div>  
+    <img src="https://avatars.dicebear.com/api/initials/{{name}}.svg" alt="Profile-Pic" class="user-dp">
+    <div class="name">
+      <h2>Name</h2>
+      <h3>{{name}}</h3>
+    </div>
+    <div class="email">
+      <h2>Email</h2>
+      <h3>{{email}}</h3>
+    </div>
+    <div class="buttons">
+      <input type="button" value="Edit Name" (click)="pop()" ngClass='button'>
+      <input type="button" value="Logout" (click)="logout()" ngClass='button'>
+    </div>
   </div>
 </div>
 
 <div class="pop-up" #popUp>
-  <div class="pop-up-in">    
-    <h2>Edit Name</h2>
-    <input type="text" placeholder="Enter New Name" autofocus #newName>
-    <input type="button" value="Confirm" (click)="changeUserName(newName)">
-    <input type="button" value="Cancel" (click)="pop()">
+  <div>
+    <div class="pop-up-in">    
+      <h2>Edit Name</h2>
+      <input type="text" placeholder="Enter New Name" autofocus #newName>
+      <div class="buttons">
+        <input type="button" value="Confirm" (click)="changeUserName(newName)" ngClass='button'>
+        <input type="button" value="Cancel" (click)="pop()" ngClass='button'>
+      </div>
+    </div>
   </div>
 </div>
 

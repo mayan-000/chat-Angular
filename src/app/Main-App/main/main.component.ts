@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MainComponent implements OnInit {
 
   @ViewChild('menu_btn') menuBtn!: ElementRef;
+  @ViewChild('bars') bars!: ElementRef;
+  @ViewChild('cross') cross!: ElementRef;
+
 
   flip = 0;
 
@@ -19,13 +22,46 @@ export class MainComponent implements OnInit {
   }
 
   showMenu(){
-    this.flip^=1;
+    this.flip^=1;    
+    
+    if(this.flip){
+      this.menuBtn.nativeElement.classList.toggle('move-in');
 
-    if(this.flip) {
-      this.menuBtn.nativeElement.style.display = "inline";
+      if(this.bars.nativeElement.classList.value.indexOf('in')!=-1){
+        this.bars.nativeElement.classList.toggle('in');
+      }
+
+      this.bars.nativeElement.classList.toggle('out');
+
+      if(this.cross.nativeElement.classList.value.indexOf('out')!=-1){
+        this.cross.nativeElement.classList.toggle('out');
+      }
+
+      this.cross.nativeElement.classList.toggle('in');
+
+      if(this.menuBtn.nativeElement.classList.value.indexOf('move-out')!=-1){
+        this.menuBtn.nativeElement.classList.toggle('move-out');
+      }
     }
     else{
-      this.menuBtn.nativeElement.style.display = "none";
+      this.menuBtn.nativeElement.classList.toggle('move-out');
+
+      if(this.bars.nativeElement.classList.value.indexOf('out')!=-1){
+        this.bars.nativeElement.classList.toggle('out');
+      }      
+
+      this.bars.nativeElement.classList.toggle('in');
+
+      if(this.cross.nativeElement.classList.value.indexOf('in')!=-1){
+        this.cross.nativeElement.classList.toggle('in');
+      }
+
+      this.cross.nativeElement.classList.toggle('out');
+
+
+      if(this.menuBtn.nativeElement.classList.value.indexOf('move-in')!=-1){
+        this.menuBtn.nativeElement.classList.toggle('move-in');
+      }
     }
 
   }

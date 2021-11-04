@@ -1,7 +1,8 @@
 import { RecentChatExtractorService } from './../../service-classes/recent-chat-extractor.service';
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -94,7 +95,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   send(){
     let message = this.messageInput.nativeElement.value;
-    this.messageInput.nativeElement.value="";
+    this.messageInput.nativeElement.value=""; 
+
+    if(message==""){
+      return;
+    }
 
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -113,6 +118,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     
     this.recentChats.push(messageObjectSend);
+
+    this.recentChat.lastMessagesSubject.next({patch:{ data: messageObjectSend, path: `/${this.uid}`}})
 
     setTimeout(()=>{
       this.cover.nativeElement.scrollTop = this.cover.nativeElement.scrollHeight;
