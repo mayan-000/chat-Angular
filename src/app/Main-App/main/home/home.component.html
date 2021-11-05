@@ -18,7 +18,7 @@
             <div class="message-info" #sidebar>
               <div class="name">{{chat.name}}</div>
               <div class="recent-message">
-                <div class="message">{{chat.message}} <span class="new-or-not" *ngIf="chat.type=='receive' && chat.read!=1">+NEW</span> 2</div>
+                <div class="message">{{chat.message}} <span class="new-or-not" *ngIf="chat.type=='receive' && chat.read!=1">+NEW</span> <i class="fas fa-angle-right"></i></div>
                 <div class="time-date">{{chat.date + " " + chat.time}}</div>
               </div>
             </div>
