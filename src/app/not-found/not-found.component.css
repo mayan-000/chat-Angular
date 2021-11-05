@@ -1,12 +1,12 @@
 .container{
   height: 94vh;
-  color: var(--eerie-black);
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(to right, #203a43, #2c5364);
 }
 
 img{
   height: 80vh;
   width: 80vw;
+  object-fit: contain;
   position: absolute;
   top: 50%;
   left:50%;

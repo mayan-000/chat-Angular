@@ -6,7 +6,6 @@ form {
 }
 
 input {
-  /* width: 20vw; */
   background: #fff;
   color: var(--eerie-black);
   font: inherit;

@@ -1,9 +1,16 @@
-.center {
+.animation {
   height: 97vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, rgba(0,0,0,1) 14%, rgba(31,30,30,1) 63%, rgba(51,51,51,1) 100%);
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg, rgba(0,0,0,1) 14%, rgba(31,30,30,1) 63%, rgba(51,51,51,1) 100%);
 }
 .wave {
   width: 5px;
@@ -51,4 +58,13 @@
   100% {
     transform: scale(0);
   }
+}
+
+.made{
+  color: var(--lavendar-gray);
+  text-align: center;
+}
+
+a {
+  color: inherit;
 }

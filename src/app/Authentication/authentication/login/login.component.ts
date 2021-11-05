@@ -83,9 +83,7 @@ export class LoginComponent implements OnInit {
     this.authenticate.goForgotPassword();
   }
 
-  setCookie(){
-    // console.log('cookie');
-    
+  setCookie(){    
     this.cookie.set('id-chat', this.id);
   }
 }

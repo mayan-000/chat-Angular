@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     
     this.checkCookie();
 
-    setInterval(()=>{this.wait = false;},1000);
+    setTimeout(()=>{this.wait = false;},2000);
   }
 
   checkCookie(){

@@ -107,7 +107,6 @@ i{
 
 .messages span:nth-of-type(odd) {
   color: var(--eerie-black);
-  /* border-left: var(--crimson-ua) solid 1vw; */
   border-bottom: var(--crimson-ua) 1px solid;
   font-size: 2.5vh;
   font-weight: 600;
@@ -133,7 +132,6 @@ i{
 }
 
 .send span:nth-of-type(even){
-  /* float: right; */
   color: var(--crimson-ua)
 }
 
@@ -142,12 +140,10 @@ i{
 }
 
 .receive span:nth-child(1){
-  /* float: left; */
   border-bottom: #0B5AA2 3px solid;
 }
 
 .type-message{
-  /* height: 10vh; */
   display: flex;
   justify-content: center;
   align-items: center;

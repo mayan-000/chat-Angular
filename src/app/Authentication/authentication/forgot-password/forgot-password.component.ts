@@ -35,7 +35,6 @@ export class ForgotPasswordComponent implements OnInit {
       (responseData)=>{
         this.detailsValid = true;
         this.linkSent = true;
-        // console.log(responseData);
 
         setInterval(()=>{
           this.animationStart = false;
