@@ -39,6 +39,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.uid = data.uid;
       this.image = `https://avatars.dicebear.com/api/initials/${this.name}.svg`;
 
+      this.recentChats = [];
       this.recentChat._extractAll(this.uid);
     });
 
