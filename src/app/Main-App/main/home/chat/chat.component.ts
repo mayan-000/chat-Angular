@@ -86,7 +86,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.recentChats.push(data[key]);
           }
         }
-
         if (this.recentChats.length)
           this.recentChat.updateLast(
             this.uid,

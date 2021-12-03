@@ -1,21 +1,36 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!animationStart">
-  <input type="text" name="username" id="name" placeholder="Enter Your UserName" required [formControlName]="'name'" autofocus>
-  <input type="email" name="userEmail" id="email" placeholder="Enter Your Email" required [formControlName]="'email'">
+  <input
+    type="text"
+    name="username"
+    id="name"
+    placeholder="Enter Your UserName"
+    required
+    [formControlName]="'name'"
+    autofocus
+  />
+  <input
+    type="email"
+    name="userEmail"
+    id="email"
+    placeholder="Enter Your Email"
+    required
+    [formControlName]="'email'"
+  />
 
-  <input type="password" name="userPassword" id="password" placeholder="Enter Your Password" required [formControlName]="'password'">
+  <input
+    type="password"
+    name="userPassword"
+    id="password"
+    placeholder="Enter Your Password"
+    required
+    [formControlName]="'password'"
+  />
 
-  <button type="submit" [disabled]="!form.valid">
-    SignUp
-  </button>
+  <button type="submit" [disabled]="!form.valid">SignUp</button>
 
-  <button type="button" (click)="goLogin()">
-    LogIn
-  </button>
+  <button type="button" (click)="goLogin()">LogIn</button>
 
-  <button type="button" (click)="goForgotPassword()">
-    Forgot Password?
-  </button>
-
+  <button type="button" (click)="goForgotPassword()">Forgot Password?</button>
 </form>
 
 <div class="errorMessage" *ngIf="!detailsValid">Email already in use!</div>
@@ -34,5 +49,7 @@
     <div class="wave"></div>
   </div>
 
-  <div *ngIf="accountCreated">Email Verification Link Sent!<br>Please Verify and Login.</div>
+  <div *ngIf="accountCreated">
+    Email Verification Link Sent!<br />Please Verify and Login.
+  </div>
 </div>
