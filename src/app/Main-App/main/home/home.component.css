@@ -1,4 +1,4 @@
-.container{
+.container {
   display: grid;
   grid-template-columns: 1fr 20fr;
   grid-template-areas: "chat router";
@@ -7,7 +7,7 @@
 
 .chat {
   grid-area: router;
-  background-color: #128CFC;
+  background-color: #128cfc;
   border: 1px solid black;
 }
 
@@ -17,15 +17,15 @@
   height: 80vh;
   display: grid;
   place-items: center;
-  background-color: #128CFC;
+  background-color: #128cfc;
 }
 
-.recent-chat{
+.recent-chat {
   width: 40vw;
   max-height: 60vh;
   background: #fffffe;
-  box-shadow: 0 3px 6px rgba(black,0.23);
-  border-top: 10px solid #0B5AA2;
+  box-shadow: 0 3px 6px rgba(black, 0.23);
+  border-top: 10px solid #0b5aa2;
 }
 
 .shrink {
@@ -40,7 +40,7 @@
   from {
     width: 100vw;
   }
-  to{
+  to {
     width: 40vw;
   }
 }
@@ -54,14 +54,14 @@
   }
 }
 
-.content{
+.content {
   padding: 10px;
   margin: 10px;
   max-height: 55vh;
   overflow: auto;
 }
 
-.info{
+.info {
   padding: 10px;
   padding-right: 0px;
   display: grid;
@@ -74,21 +74,21 @@
 
 .info:hover {
   border-radius: 10px;
-  border: 1px solid #0B5AA2;
+  border: 1px solid #0b5aa2;
 }
 
 .add-at-700 {
   display: none;
 }
 
-.chat-clicked{
-  border-top: 5px solid #0B5AA2;
+.chat-clicked {
+  border-top: 5px solid #0b5aa2;
 }
 
-i{
+i {
   align-self: center;
   font-size: 24px;
-  color: #0B5AA2;
+  color: #0b5aa2;
   font-weight: bold;
   animation: icon 1.5s infinite forwards;
   float: right;
@@ -96,7 +96,8 @@ i{
 }
 
 @keyframes icon {
-  0%,100%{
+  0%,
+  100% {
     transform: translate(0px);
   }
   50% {
@@ -116,7 +117,7 @@ i{
   font-size: 1.7vh;
   border-radius: 3px;
   float: right;
-  color: #0B5AA2;
+  color: #0b5aa2;
   font-weight: 700;
   padding: 2px 4px;
 }
@@ -127,7 +128,7 @@ i{
   color: #2a2c2e;
 }
 
-.new-or-not{
+.new-or-not {
   background-color: var(--sea-green);
   border-radius: 3rem;
   padding: 0 1vw;
@@ -147,27 +148,27 @@ i{
   animation: icon 1.5s ease-out infinite alternate;
 }
 
-img{
+img {
   height: 10vh;
   width: 10vw;
   object-fit: contain;
 }
 
-.empty{
+.empty {
   height: 80vh;
   color: var(--eerie-black);
 }
 
-.empty img{
+.empty img {
   height: 60vh;
   width: 60vw;
   position: absolute;
   top: 50%;
-  left:50%;
+  left: 50%;
   transform: translate(-30vw, -30vh);
 }
 
-.empty p{
+.empty p {
   font-size: 3vh;
   font-weight: 900;
   text-align: center;
@@ -228,8 +229,7 @@ img{
   }
 }
 
-@media screen and (max-width: 700px){
-
+@media screen and (max-width: 700px) {
   .message-info {
     font-size: 12px;
   }
@@ -242,11 +242,11 @@ img{
     from {
       width: 100vw;
     }
-    to{
+    to {
       width: 20vw;
     }
   }
-  
+
   @keyframes expand {
     from {
       width: 20vw;

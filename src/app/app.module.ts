@@ -39,7 +39,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CookieService, {provide: HTTP_INTERCEPTORS, useClass: AuthCheckInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthCheckInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

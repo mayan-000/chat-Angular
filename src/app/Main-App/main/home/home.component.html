@@ -1,46 +1,87 @@
 <div #container>
   <div class="chat">
-    <router-outlet (activate)="chatInit($event)" (deactivate)="chatDestroyed($event)"></router-outlet>
+    <router-outlet
+      (activate)="chatInit($event)"
+      (deactivate)="chatDestroyed($event)"
+    ></router-outlet>
   </div>
   <div class="chat-container" *ngIf="!wait && recentChats.length" #recent>
     <div class="recent-chat">
-
       <div class="content">
-
-
         <div class="remove-at-700" #remove700>
-          <div class="info" *ngFor="let chat of recentChats" [routerLink]="['chat', chat.name, chat.uid]" [routerLinkActive]='"chat-clicked"'>
+          <div
+            class="info"
+            *ngFor="let chat of recentChats"
+            [routerLink]="['chat', chat.name, chat.uid]"
+            [routerLinkActive]="'chat-clicked'"
+          >
             <div>
-              <p class="new-or-notP" *ngIf="chat.type=='receive' && chat.read!=1">&nbsp;</p>
-              <img src="https://avatars.dicebear.com/api/initials/{{chat.name}}.svg" alt="Recent-chat-profile-pic">
+              <p
+                class="new-or-notP"
+                *ngIf="chat.type == 'receive' && chat.read != 1"
+              >
+                &nbsp;
+              </p>
+              <img
+                src="https://avatars.dicebear.com/api/initials/{{
+                  chat.name
+                }}.svg"
+                alt="Recent-chat-profile-pic"
+              />
             </div>
-            
-            <div class="message-info" #sidebar>
-              <div class="name">{{chat.name}}</div>
-              <div class="recent-message">
-                <div class="message">{{chat.message}} <span class="new-or-not" *ngIf="chat.type=='receive' && chat.read!=1">+NEW</span> <i class="fas fa-angle-right"></i></div>
-                <div class="time-date">{{chat.date + " " + chat.time}}</div>
-              </div>
-            </div>
-            </div>
-          </div>
 
-          <div class="add-at-700" #add700>
-            <div class="" *ngFor="let chat of recentChats" [routerLink]="['chat', chat.name, chat.uid]" [routerLinkActive]='"chat-clicked"'>
-              <div>
-                <p class="new-or-notP" *ngIf="chat.type=='receive' && chat.read!=1">&nbsp;</p>
-                <img src="https://avatars.dicebear.com/api/initials/{{chat.name}}.svg" alt="Recent-chat-profile-pic">
+            <div class="message-info" #sidebar>
+              <div class="name">{{ chat.name }}</div>
+              <div class="recent-message">
+                <div class="message">
+                  {{ chat.message }}
+                  <span
+                    class="new-or-not"
+                    *ngIf="chat.type == 'receive' && chat.read != 1"
+                    >+NEW</span
+                  >
+                  <i class="fas fa-angle-right"></i>
+                </div>
+                <div class="time-date">{{ chat.date + " " + chat.time }}</div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="add-at-700" #add700>
+          <div
+            class=""
+            *ngFor="let chat of recentChats"
+            [routerLink]="['chat', chat.name, chat.uid]"
+            [routerLinkActive]="'chat-clicked'"
+          >
+            <div>
+              <p
+                class="new-or-notP"
+                *ngIf="chat.type == 'receive' && chat.read != 1"
+              >
+                &nbsp;
+              </p>
+              <img
+                src="https://avatars.dicebear.com/api/initials/{{
+                  chat.name
+                }}.svg"
+                alt="Recent-chat-profile-pic"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class = "empty" *ngIf="!recentChats.length && !wait">
-  <img src="../../assets/images/404.svg" alt="Empty">
-  <p>Empty List! <br> Add New Friends</p>
+<div class="empty" *ngIf="!recentChats.length && !wait">
+  <img src="../../assets/images/404.svg" alt="Empty" />
+  <p>
+    Empty List! <br />
+    Add New Friends
+  </p>
 </div>
 
 <div *ngIf="wait" class="animation">
