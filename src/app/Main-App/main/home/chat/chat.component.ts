@@ -6,11 +6,8 @@ import {
   OnInit,
   ViewChild,
   OnDestroy,
-  Output,
-  EventEmitter,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat',

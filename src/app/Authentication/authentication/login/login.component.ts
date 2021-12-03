@@ -2,10 +2,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { AuthenticateService } from './../authentication-service/authenticate.service';
 import {
   Component,
-  EventEmitter,
-  OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { throwError } from 'rxjs';

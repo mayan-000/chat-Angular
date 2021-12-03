@@ -1,10 +1,8 @@
 import { AuthenticateService } from './authentication-service/authenticate.service';
 import {
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';

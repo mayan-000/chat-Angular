@@ -1,4 +1,3 @@
-import { ChatComponent } from './chat/chat.component';
 import { RecentChatModel } from './../helper-classes/recent-chat-model';
 import { CookieService } from 'ngx-cookie-service';
 import { RecentChatExtractorService } from './../service-classes/recent-chat-extractor.service';

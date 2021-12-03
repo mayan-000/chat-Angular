@@ -1,22 +1,15 @@
 import { AuthenticateService } from './../authentication-service/authenticate.service';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
-  ValidationErrors,
-} from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { catchError, switchMap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { switchMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
+  styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+
   form = new FormGroup({});
 
   detailsValid: boolean = true;
@@ -25,70 +18,68 @@ export class SignupComponent implements OnInit {
 
   animationStart: boolean = false;
 
-  constructor(private authenticate: AuthenticateService) {}
+
+  constructor(private authenticate: AuthenticateService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.required, this.noSpaceValidator()]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
+      'name': new FormControl("", [Validators.required, this.noSpaceValidator()]),
+      'email': new FormControl("", [Validators.required, Validators.email]),
+      'password': new FormControl("", [Validators.required, Validators.minLength(8)]),
     });
   }
 
-  onSubmit() {
+  onSubmit(){
     this.animationStart = true;
 
     let email = this.form.controls['email'].value;
     let password = this.form.controls['password'].value;
     let name = this.form.controls['name'].value;
 
-    this.authenticate
-      .signup(email, password)
-      .pipe(
-        switchMap((data) => {
-          return this.authenticate.verifyEmail(email, name, data);
-        })
-      )
-      .subscribe(
-        (responseData) => {
-          this.detailsValid = true;
-          this.accountCreated = true;
 
-          setInterval(() => {
-            this.goLogin();
-          }, 4000);
-        },
-        (error) => {
-          this.detailsValid = false;
-          setInterval(() => {
-            this.animationStart = false;
-            this.detailsValid = true;
-            this.accountCreated = false;
-          }, 4000);
-        }
-      );
+    this.authenticate.signup(email, password)
+    .pipe(switchMap(
+      (data)=>{
+        return this.authenticate.verifyEmail(email, name, data);
+      }))
+    .subscribe(
+      (responseData)=>{
+        this.detailsValid = true;
+        this.accountCreated = true;
+
+        setInterval(()=>{
+          this.goLogin();
+        },4000);
+      },
+      (error)=>{
+        this.detailsValid = false;
+        setInterval(()=>{
+          this.animationStart = false;
+          this.detailsValid = true;
+          this.accountCreated = false;
+        },4000);
+      }
+    );
   }
 
-  goLogin() {
+  goLogin(){
     this.authenticate.goLogin();
   }
 
-  goForgotPassword() {
+  goForgotPassword(){
     this.authenticate.goForgotPassword();
   }
-
-  noSpaceValidator(): ValidatorFn {
+  
+  noSpaceValidator(): ValidatorFn{
     return (control: AbstractControl): ValidationErrors | null => {
       const val = control.value;
 
-      if (val.split(' ').length > 1) {
-        return { space: true };
+      if(val.split(' ').length>1){
+        return {space: true};
       }
 
       return null;
-    };
+    }
   }
+
 }

@@ -1,9 +1,7 @@
-import { switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FriendsExtractorService } from '../service-classes/friends-extractor.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',

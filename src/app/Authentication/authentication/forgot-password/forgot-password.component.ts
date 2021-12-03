@@ -1,6 +1,6 @@
 import { AuthenticateService } from './../authentication-service/authenticate.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-forgot-password',

@@ -3,7 +3,7 @@ import { switchMap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { interval, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

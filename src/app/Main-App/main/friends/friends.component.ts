@@ -1,5 +1,5 @@
 import { CookieService } from 'ngx-cookie-service';
-import { filter, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { FriendsExtractorService } from './../service-classes/friends-extractor.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
