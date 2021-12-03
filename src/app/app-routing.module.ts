@@ -14,43 +14,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationComponent } from './Authentication/authentication/authentication.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent },
-  {
-    path: 'authentication',
-    component: AuthenticationComponent,
-    canActivate: [AuthGuardGuard],
-    canActivateChild: [AuthGuardGuard],
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'signup', component: SignupComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
-    ],
-  },
-  {
-    path: 'main',
-    component: MainComponent,
-    canActivate: [AuthGuardGuard],
-    canActivateChild: [AuthGuardGuard],
-    children: [
-      {
-        path: 'home',
-        component: HomeComponent,
-        children: [{ path: 'chat/:friend/:uid', component: ChatComponent }],
-      },
-      { path: 'friends', component: FriendsComponent },
-      { path: 'profile', component: ProfileComponent },
-    ],
-  },
-  { path: '**', component: NotFoundComponent },
+  {path: '', component: AppComponent},
+  {path: 'authentication', component: AuthenticationComponent, canActivate: [AuthGuardGuard],    
+  canActivateChild: [AuthGuardGuard], children: [
+    {path: 'login', component: LoginComponent},
+    {path: 'signup', component: SignupComponent},
+    {path: 'forgot-password', component: ForgotPasswordComponent}
+  ]},
+  {path: 'main', component: MainComponent, canActivate: [AuthGuardGuard], canActivateChild: [AuthGuardGuard], children: [
+    {path: 'home', component: HomeComponent, children: [
+      {path: 'chat/:friend/:uid', component: ChatComponent}
+    ]},
+    {path: 'friends', component: FriendsComponent},
+    {path: 'profile', component: ProfileComponent}
+  ]},
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      useHash: true,
-      onSameUrlNavigation: 'reload',
-    }),
-  ],
-  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes, {useHash: true, onSameUrlNavigation: 'reload'})],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

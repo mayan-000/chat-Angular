@@ -5,9 +5,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css'],
+  styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
+
   form = new FormGroup({});
 
   detailsValid: boolean = true;
@@ -16,48 +17,50 @@ export class ForgotPasswordComponent implements OnInit {
 
   linkSent: boolean = false;
 
-  constructor(private authenticate: AuthenticateService) {}
+  constructor(private authenticate: AuthenticateService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      'email': new FormControl("", [Validators.required, Validators.email]),
     });
   }
 
-  onSubmit() {
+
+  onSubmit(){
     this.animationStart = true;
 
-    let email = this.form.controls['email'].value;
+    let email = this.form.controls['email'].value;      
 
     this.authenticate.forgotPassword(email).subscribe(
-      (responseData) => {
+      (responseData)=>{
         this.detailsValid = true;
         this.linkSent = true;
 
-        setInterval(() => {
+        setInterval(()=>{
           this.animationStart = false;
           this.linkSent = false;
           this.goLogin();
-        }, 4000);
+        },4000);
       },
-      (error) => {
-        this.detailsValid = false;
+      (error)=>{
+        this.detailsValid = false;  
         this.linkSent = false;
 
-        setInterval(() => {
+        setInterval(()=>{
           this.animationStart = false;
           this.linkSent = false;
           this.detailsValid = true;
-        }, 4000);
+        },4000);
       }
     );
   }
 
-  goLogin() {
+  goLogin(){
     this.authenticate.goLogin();
   }
 
-  goSignup() {
+  goSignup(){
     this.authenticate.goSignup();
   }
+
 }

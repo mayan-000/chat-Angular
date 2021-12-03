@@ -1,19 +1,19 @@
-.container {
+.container{
   height: 94vh;
   background: linear-gradient(to right, #203a43, #2c5364);
 }
 
-img {
+img{
   height: 80vh;
   width: 80vw;
   object-fit: contain;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left:50%;
   transform: translate(-40vw, -40vh);
 }
 
-p {
+p{
   font-size: 3vh;
   font-weight: 900;
   text-align: center;

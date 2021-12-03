@@ -1,34 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!animationStart">
-  <input
-    type="email"
-    name="userEmail"
-    id="email"
-    placeholder="Enter Your Email"
-    required
-    [formControlName]="'email'"
-    autofocus
-  />
+  <input type="email" name="userEmail" id="email" placeholder="Enter Your Email" required [formControlName]="'email'" autofocus>
 
-  <input
-    type="password"
-    name="userPassword"
-    id="password"
-    placeholder="Enter Your Password"
-    required
-    [formControlName]="'password'"
-  />
+  <input type="password" name="userPassword" id="password" placeholder="Enter Your Password" required [formControlName]="'password'">
 
-  <button type="submit" [disabled]="!form.valid">LogIn</button>
+  <button type="submit" [disabled]="!form.valid">
+    LogIn
+  </button>
 
-  <button type="button" (click)="goSignup()">SignUp</button>
+  <button type="button" (click)="goSignup()">
+    SignUp
+  </button>
 
-  <button type="button" (click)="goForgotPassword()">Forgot Password?</button>
+  <button type="button" (click)="goForgotPassword()">
+    Forgot Password?
+  </button>
 </form>
 
-<div class="errorMessage" *ngIf="!detailsValid">
-  Email/Password Invalid!<br />OR<br />
-  Email not verified!
-</div>
+<div class="errorMessage" *ngIf="!detailsValid">Email/Password Invalid!<br>OR<br> Email not verified!</div>
 
 <div class="successMessage" *ngIf="animationStart">
   <div class="center">
