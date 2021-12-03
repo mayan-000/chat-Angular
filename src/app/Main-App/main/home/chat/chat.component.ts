@@ -66,35 +66,37 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   extractMessages(_data: any) {
-    if (_data.put.path == '/') {
-      let data = _data.put.data.messages;
+    if (_data.put !== null) {
+      if (_data.put.path == '/') {
+        let data = _data.put.data.messages;
 
-      for (const key in data) {
-        let n = this.recentChats.length;
+        for (const key in data) {
+          let n = this.recentChats.length;
 
-        if (n) {
-          if (
-            this.recentChats[n - 1].date == data[key].date &&
-            this.recentChats[n - 1].time == data[key].time
-          ) {
+          if (n) {
+            if (
+              this.recentChats[n - 1].date == data[key].date &&
+              this.recentChats[n - 1].time == data[key].time
+            ) {
+            } else {
+              this.recentChats.push(data[key]);
+              this.recentChat.updateReadMessage(key, this.uid, data[key]);
+            }
           } else {
             this.recentChats.push(data[key]);
-            this.recentChat.updateReadMessage(key, this.uid, data[key]);
           }
-        } else {
-          this.recentChats.push(data[key]);
         }
+
+        if (this.recentChats.length)
+          this.recentChat.updateLast(
+            this.uid,
+            this.recentChats[this.recentChats.length - 1]
+          );
+
+        this.wait = false;
       }
-
-      if (this.recentChats.length)
-        this.recentChat.updateLast(
-          this.uid,
-          this.recentChats[this.recentChats.length - 1]
-        );
-
-      this.wait = false;
     } else {
-      let data = _data.put.data;
+      let data = _data.patch.data;
 
       if (data.type == 'receive') {
         this.recentChats.push(data);

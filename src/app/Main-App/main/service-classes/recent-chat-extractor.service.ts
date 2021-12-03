@@ -94,7 +94,11 @@ export class RecentChatExtractorService {
         this.sse.addEventListener(
           'patch',
           (e: any) => {
-            this.lastMessagesSubject.next({ patch: JSON.parse(e.data) });
+            this.lastMessagesSubject.next({
+              patch: JSON.parse(e.data),
+              put: null,
+              auth_revoked: false,
+            });
           },
           false
         );
@@ -102,7 +106,11 @@ export class RecentChatExtractorService {
         this.sse.addEventListener(
           'put',
           (e: any) => {
-            this.lastMessagesSubject.next({ put: JSON.parse(e.data) });
+            this.lastMessagesSubject.next({
+              put: JSON.parse(e.data),
+              auth_revoked: false,
+              patch: null,
+            });
           },
           false
         );
@@ -110,7 +118,11 @@ export class RecentChatExtractorService {
         this.sse.addEventListener(
           'auth_revoked',
           (e: any) => {
-            this.lastMessagesSubject.next({ auth_revoked: true });
+            this.lastMessagesSubject.next({
+              auth_revoked: true,
+              patch: null,
+              put: null,
+            });
           },
           false
         );
